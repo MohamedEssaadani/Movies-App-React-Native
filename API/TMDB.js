@@ -8,8 +8,8 @@ function getFilmsByText(text) {
     .catch((err) => console.error(err))
 }
 
-export function getImageFromApi(name) {
+function getImageFromApi(name) {
   return "https://image.tmdb.org/t/p/w300" + name
 }
 
-export { getFilmsByText }
+export { getFilmsByText, getImageFromApi }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { View } from "react-native"
+import { View, StyleSheet } from "react-native"
 import Search from "./components/Search"
 import FilmList from "./components/FilmList"
 import { getFilmsByText } from "./API/TMDB"
@@ -24,3 +24,5 @@ export default function App() {
     </View>
   )
 }
+
+const styles = StyleSheet.create({})

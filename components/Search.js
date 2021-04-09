@@ -15,7 +15,7 @@ function Search({ fetchFilms }) {
     fetchFilms(searchText)
   }
   return (
-    <View style={styles.main_container}>
+    <View style={{ marginTop: 50 }}>
       <TextInput
         style={styles.textinput}
         placeholder="Film Title"
@@ -32,13 +32,9 @@ function Search({ fetchFilms }) {
 export default Search
 
 const styles = StyleSheet.create({
-  main_container: {
-    flex: 1,
-    marginTop: 20,
-  },
   textinput: {
     margin: 5,
-    height: 50,
+    height: 40,
     borderColor: "#000000",
     borderWidth: 1,
     paddingLeft: 5,

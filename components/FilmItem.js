@@ -1,10 +1,33 @@
+// import { Card, CardItem, Left, Right } from "native-base"
 import React from "react"
 import { StyleSheet, View, Text, Image } from "react-native"
-import { getImageFromApi } from "../API/TMDBApi"
+import { getImageFromApi } from "../API/TMDB"
 
 function FilmItem({ film }) {
   return (
-    <View style={styles.main_container}>
+    <View >
+      {/* <Card>
+        <CardItem>
+          <Text style={styles.title_text}>{film.title}</Text>
+          <Text style={styles.vote_text}>{film.vote_average}</Text>
+        </CardItem>
+        <CardItem cardBody>
+          <Image
+            style={styles.image}
+            source={{ uri: getImageFromApi(film.poster_path) }}
+          />
+        </CardItem>
+        <CardIem>
+          <Left>
+            <Text style={styles.description_text} numberOfLines={6}>
+              {film.overview}
+            </Text>
+          </Left>
+          <Right>
+            <Text style={styles.date_text}>{film.release_date}</Text>
+          </Right>
+        </CardIem>
+      </Card> */}
       <Image
         style={styles.image}
         source={{ uri: getImageFromApi(film.poster_path) }}
@@ -28,10 +51,7 @@ function FilmItem({ film }) {
 }
 
 const styles = StyleSheet.create({
-  main_container: {
-    height: 190,
-    flexDirection: "row",
-  },
+ 
   image: {
     width: 120,
     height: 180,
