@@ -3,15 +3,15 @@ import { StyleSheet, Image } from "react-native"
 import { createAppContainer } from "react-navigation"
 import { createStackNavigator } from "react-navigation-stack"
 import { createBottomTabNavigator } from "react-navigation-tabs"
-import Search from "../components/Search"
 import FilmDetail from "../components/FilmDetails"
+import Home from "../components/Home"
 
-const SearchStackNavigator = createStackNavigator({
-  Search: {
-    screen: Search,
-    navigationOptions: {
-      title: "Search",
-    },
+const HomeStackNavigator = createStackNavigator({
+  Home: {
+    screen: Home,
+    // navigationOptions: {
+    //   title: "Home ",
+    // },
   },
   FilmDetail: {
     screen: FilmDetail,
@@ -44,8 +44,8 @@ const SearchStackNavigator = createStackNavigator({
 
 const MoviesTabNavigator = createBottomTabNavigator(
   {
-    Search: {
-      screen: SearchStackNavigator,
+    Home: {
+      screen: HomeStackNavigator,
       navigationOptions: {
         tabBarIcon: () => {
           return (

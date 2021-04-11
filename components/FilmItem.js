@@ -1,22 +1,25 @@
 import { Card, CardItem, Left, Right } from "native-base"
 import React from "react"
-import { StyleSheet, View, Text, Image } from "react-native"
+import { StyleSheet, TouchableOpacity, Text, Image } from "react-native"
 import { ScrollView } from "react-native-gesture-handler"
 import { getImageFromApi } from "../API/TMDB"
+import Rating from "./Rating"
 
-function FilmItem({ film }) {
+function FilmItem({ film, displayDetails }) {
   return (
     <ScrollView>
       <Card>
         <CardItem>
           <Text style={styles.title_text}>{film.title}</Text>
-          <Text style={styles.vote_text}>{film.vote_average}</Text>
+          <Text style={styles.vote_text}>{film.vote_average}/10</Text>
         </CardItem>
         <CardItem cardBody style={{ justifyContent: "center" }}>
-          <Image
-            style={styles.image}
-            source={{ uri: getImageFromApi(film.poster_path) }}
-          />
+          <TouchableOpacity onPress={() => displayDetails(film.id)}>
+            <Image
+              style={styles.image}
+              source={{ uri: getImageFromApi(film.poster_path) }}
+            />
+          </TouchableOpacity>
         </CardItem>
         <CardItem>
           <Text style={styles.description_text} numberOfLines={6}>
@@ -24,7 +27,12 @@ function FilmItem({ film }) {
           </Text>
         </CardItem>
         <CardItem>
-          <Text style={styles.date_text}>{film.release_date}</Text>
+          <Left>
+            <Text style={styles.date_text}>{film.release_date}</Text>
+          </Left>
+          <Right>
+            <Rating value={film.vote_average} />
+          </Right>
         </CardItem>
       </Card>
     </ScrollView>

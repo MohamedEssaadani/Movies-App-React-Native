@@ -1,29 +1,14 @@
-import React, { useState, useEffect } from "react"
-import { View, StyleSheet } from "react-native"
-import Search from "./components/Search"
-import FilmList from "./components/FilmList"
-import { getFilmsByText } from "./API/TMDB"
+import React from "react"
+import { View, StyleSheet, Text } from "react-native"
 import Navigation from "./navigation/Navigation"
+import { Provider } from "react-redux"
+import store from "./store/store"
 
 export default function App() {
-  const [filmData, setFilmData] = useState([])
-
-  useEffect(() => {
-    fetchFilms("")
-  }, [])
-
-  const fetchFilms = (text) => {
-    getFilmsByText(text).then((data) => {
-      setFilmData(data.results)
-    })
-  }
-
   return (
-    <View>
-      <Search fetchFilms={fetchFilms} />
-      <FilmList filmData={filmData} />
-      {/* <Navigation /> */}
-    </View>
+    <Provider store={store}>
+      <Navigation />
+    </Provider>
   )
 }
 

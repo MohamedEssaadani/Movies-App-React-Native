@@ -15,7 +15,7 @@ function Search({ fetchFilms }) {
     fetchFilms(searchText)
   }
   return (
-    <View style={{ marginTop: 50 }}>
+    <View style={{ marginTop: 10, backgroundColor: "#fff" }}>
       <TextInput
         style={styles.textinput}
         placeholder="Film Title"
