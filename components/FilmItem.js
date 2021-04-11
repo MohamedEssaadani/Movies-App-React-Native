@@ -1,57 +1,37 @@
-// import { Card, CardItem, Left, Right } from "native-base"
+import { Card, CardItem, Left, Right } from "native-base"
 import React from "react"
 import { StyleSheet, View, Text, Image } from "react-native"
+import { ScrollView } from "react-native-gesture-handler"
 import { getImageFromApi } from "../API/TMDB"
 
 function FilmItem({ film }) {
   return (
-    <View >
-      {/* <Card>
+    <ScrollView>
+      <Card>
         <CardItem>
           <Text style={styles.title_text}>{film.title}</Text>
           <Text style={styles.vote_text}>{film.vote_average}</Text>
         </CardItem>
-        <CardItem cardBody>
+        <CardItem cardBody style={{ justifyContent: "center" }}>
           <Image
             style={styles.image}
             source={{ uri: getImageFromApi(film.poster_path) }}
           />
         </CardItem>
-        <CardIem>
-          <Left>
-            <Text style={styles.description_text} numberOfLines={6}>
-              {film.overview}
-            </Text>
-          </Left>
-          <Right>
-            <Text style={styles.date_text}>{film.release_date}</Text>
-          </Right>
-        </CardIem>
-      </Card> */}
-      <Image
-        style={styles.image}
-        source={{ uri: getImageFromApi(film.poster_path) }}
-      />
-      <View style={styles.content_container}>
-        <View style={styles.header_container}>
-          <Text style={styles.title_text}>{film.title}</Text>
-          <Text style={styles.vote_text}>{film.vote_average}</Text>
-        </View>
-        <View style={styles.description_container}>
+        <CardItem>
           <Text style={styles.description_text} numberOfLines={6}>
             {film.overview}
           </Text>
-        </View>
-        <View style={styles.date_container}>
+        </CardItem>
+        <CardItem>
           <Text style={styles.date_text}>{film.release_date}</Text>
-        </View>
-      </View>
-    </View>
+        </CardItem>
+      </Card>
+    </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
- 
   image: {
     width: 120,
     height: 180,
@@ -71,6 +51,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexWrap: "wrap",
     paddingRight: 5,
+    color: "orange",
   },
   vote_text: {
     fontWeight: "bold",
@@ -83,13 +64,14 @@ const styles = StyleSheet.create({
   description_text: {
     fontStyle: "italic",
     color: "#666666",
+    justifyContent: "space-between",
   },
   date_container: {
     flex: 1,
   },
   date_text: {
-    textAlign: "right",
     fontSize: 14,
+    color: "orange",
   },
 })
 
