@@ -1,38 +1,21 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect } from "react"
 import { StyleSheet, ScrollView, Image, TouchableOpacity } from "react-native"
-import { getImageFromApi, getFilmDetailFromApi } from "../API/TMDB"
-import { filmDetail } from "../actions/filmActions"
 import { useDispatch, useSelector } from "react-redux"
+import { getImageFromApi } from "../API/TMDB"
+import { filmDetail } from "../actions/filmActions"
 import moment from "moment"
 import { Text } from "native-base"
+import EnlargeShrink from "../Animations/EnLargeShrink"
+import Map from "./Map"
+import WebView from "react-native-webview"
 
 export default function FilmDetails({ navigation }) {
-  //const [film, setFilm] = useState({})
   const dispatch = useDispatch()
-  const [filmData, setFilmData] = useState([])
   const { loading, error, film } = useSelector((state) => state.film)
 
   useEffect(() => {
     dispatch(filmDetail(navigation.state.params.idFilm))
   }, [navigation.state.params.idFilm])
-
-  // const displayFavoriteImage = () => {
-  //   var sourceImage = require("../Images/ic_favorite_border.png")
-  //   var shouldEnlarge = false // Par défaut, si le film n'est pas en favoris, on veut qu'au clic sur le bouton, celui-ci s'agrandisse => shouldEnlarge à true
-  //   if (
-  //     this.props.favoritesFilm.findIndex(
-  //       (item) => item.id === this.state.film.id
-  //     ) !== -1
-  //   ) {
-  //     sourceImage = require("../Images/ic_favorite.png")
-  //     shouldEnlarge = true // Si le film est dans les favoris, on veut qu'au clic sur le bouton, celui-ci se rétrécisse => shouldEnlarge à false
-  //   }
-  //   return (
-  //     <EnlargeShrink shouldEnlarge={shouldEnlarge}>
-  //       <Image style={styles.favorite_image} source={sourceImage} />
-  //     </EnlargeShrink>
-  //   )
-  // }
 
   if (film != undefined) {
     return (
@@ -42,6 +25,28 @@ export default function FilmDetails({ navigation }) {
           source={{ uri: getImageFromApi(film.backdrop_path) }}
         />
         <Text style={styles.title_text}>{film.title}</Text>
+
+        <TouchableOpacity style={styles.favorite_container}>
+          <EnlargeShrink shouldEnlarge={false}>
+            <Image
+              style={styles.favorite_image}
+              source={require("../Images/ic_favorite_border.png")}
+            />
+          </EnlargeShrink>
+        </TouchableOpacity>
+
+        <WebView
+          source={{
+            uri: `https://www.youtube.com/watch?v=${film.videos.results[0].key}&ab_channel=TwilightSagaFR`,
+          }}
+          startInLoadingState={true}
+          scalesPageToFit={true}
+          style={{
+            width: 360,
+            height: 300,
+          }}
+        />
+
         <Text style={styles.description_text}>{film.overview}</Text>
         <Text style={styles.default_text}>
           Sorti le {moment(new Date(film.release_date)).format("DD/MM/YYYY")}
@@ -67,10 +72,11 @@ export default function FilmDetails({ navigation }) {
             })
             .join(" / ")}
         </Text>
+        <Map />
       </ScrollView>
     )
   } else {
-    return <Text>ERRORRRR!</Text>
+    return <Text>loading..</Text>
   }
 }
 
@@ -119,7 +125,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 5,
     marginTop: 5,
-    color: "purple",
+    color: "orange",
   },
   favorite_image: {
     flex: 1,

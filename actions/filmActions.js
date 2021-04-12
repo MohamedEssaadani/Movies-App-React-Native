@@ -28,10 +28,11 @@ export const filmDetail = (id) => async (dispatch) => {
   try {
     dispatch({ type: FILM_DETAIL_REQUEST })
 
-    const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_TOKEN}&language=fr`
+    const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_TOKEN}&append_to_response=videos
+    `
 
     const { data } = await axios.get(url)
-
+    console.log(data.videos.results[0].key)
     dispatch({ type: FILM_DETAIL_SUCCESS, payload: data })
   } catch (error) {
     dispatch({ type: FILM_DETAIL_FAIL, payload: error })
