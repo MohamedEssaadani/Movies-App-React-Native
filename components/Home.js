@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react"
 import Search from "./Search"
 import FilmList from "./FilmList"
 import { getFilmsByText } from "../API/TMDB"
-import { View } from "native-base"
+import { View, Text } from "react-native"
+import { useDispatch, useSelector } from "react-redux"
+import { filmList } from "../actions/filmActions"
 
 function Home({ navigation }) {
   const [filmData, setFilmData] = useState([])
@@ -11,19 +13,19 @@ function Home({ navigation }) {
     navigation.navigate("FilmDetail", { idFilm: id })
   }
 
-  useEffect(() => {
-    fetchFilms("")
-  }, [])
-
-  const fetchFilms = (text) => {
-    getFilmsByText(text).then((data) => {
-      setFilmData(data.results)
-    })
-  }
   return (
     <View>
-      <Search fetchFilms={fetchFilms} />
-      <FilmList filmData={filmData} displayDetails={displayDetails} />
+      <Search />
+      {/* {error ? (
+        <Text>Error</Text>
+      ) : loading ? (
+        <Text>Loading</Text>
+      ) : films ? (
+        <FilmList filmData={films} displayDetails={displayDetails} />
+      ) : (
+        <Text>No Films To Show!</Text>
+      )} */}
+      <FilmList displayDetails={displayDetails} />
     </View>
   )
 }

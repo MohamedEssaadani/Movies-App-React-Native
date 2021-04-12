@@ -1,12 +1,23 @@
 import React, { useState, useEffect } from "react"
 import { View, FlatList } from "react-native"
+import { useDispatch, useSelector } from "react-redux"
+import { filmList } from "../actions/filmActions"
 import FilmItem from "./FilmItem"
 
-function FilmList({ filmData, displayDetails }) {
+function FilmList({ displayDetails }) {
+  const dispatch = useDispatch()
+
+  const { loading, error, films } = useSelector((state) => state.filmList)
+
+  useEffect(() => {
+    dispatch(filmList("saga"))
+    console.log(films)
+  }, [])
+
   return (
     <View>
       <FlatList
-        data={filmData}
+        data={films}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <FilmItem film={item} displayDetails={displayDetails} />

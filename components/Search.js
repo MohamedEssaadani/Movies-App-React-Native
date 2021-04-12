@@ -6,13 +6,21 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native"
+import { useDispatch } from "react-redux"
+import { filmList } from "../actions/filmActions"
 
-function Search({ fetchFilms }) {
+function Search() {
+  const dispatch = useDispatch()
   const [searchText, setSearchText] = useState("")
 
   const handleSearch = () => {
-    console.log(searchText)
-    fetchFilms(searchText)
+    dispatch(filmList(searchText))
+  }
+
+  const fetchFilms = (text) => {
+    // getFilmsByText(text).then((data) => {
+    //   setFilmData(data.results)
+    // })
   }
   return (
     <View style={{ marginTop: 10, backgroundColor: "#fff" }}>

@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react"
 import { StyleSheet, ScrollView, Image, TouchableOpacity } from "react-native"
 import { getImageFromApi, getFilmDetailFromApi } from "../API/TMDB"
+import { filmDetail } from "../actions/filmActions"
+import { useDispatch, useSelector } from "react-redux"
+import moment from "moment"
+import { Text } from "native-base"
 
 export default function FilmDetails({ navigation }) {
-  const [film, setFilm] = useState({})
+  //const [film, setFilm] = useState({})
+  const dispatch = useDispatch()
+  const [filmData, setFilmData] = useState([])
+  const { loading, error, film } = useSelector((state) => state.film)
 
   useEffect(() => {
-    const fetchFilm = async () => {
-      const { data } = await getFilmDetailFromApi(navigation.state.params.idFilm)
-      console.log(data)
-      setFilm(data)
-    }
-
-    fetchFilm()
-  })
+    dispatch(filmDetail(navigation.state.params.idFilm))
+  }, [navigation.state.params.idFilm])
 
   // const displayFavoriteImage = () => {
   //   var sourceImage = require("../Images/ic_favorite_border.png")
@@ -32,61 +33,45 @@ export default function FilmDetails({ navigation }) {
   //     </EnlargeShrink>
   //   )
   // }
-  return (
-    // <ScrollView style={styles.scrollview_container}>
-    <Image
-      style={styles.image}
-      source={{ uri: getImageFromApi(film.backdrop_path) }}
-    />
-  )
-  {
-    /* <Text style={styles.title_text}>{film.title}</Text> */
+
+  if (film != undefined) {
+    return (
+      <ScrollView style={styles.scrollview_container}>
+        <Image
+          style={styles.image}
+          source={{ uri: getImageFromApi(film.backdrop_path) }}
+        />
+        <Text style={styles.title_text}>{film.title}</Text>
+        <Text style={styles.description_text}>{film.overview}</Text>
+        <Text style={styles.default_text}>
+          Sorti le {moment(new Date(film.release_date)).format("DD/MM/YYYY")}
+        </Text>
+        <Text style={styles.default_text}>Note : {film.vote_average} / 10</Text>
+        <Text style={styles.default_text}>
+          Nombre de votes : {film.vote_count}
+        </Text>
+        <Text style={styles.default_text}>Budget : ${film.budget}</Text>
+        <Text style={styles.default_text}>
+          Genre(s) :{" "}
+          {film.genres
+            .map(function (genre) {
+              return genre.name
+            })
+            .join(" / ")}
+        </Text>
+        <Text style={styles.default_text}>
+          Companie(s) :{" "}
+          {film.production_companies
+            .map(function (company) {
+              return company.name
+            })
+            .join(" / ")}
+        </Text>
+      </ScrollView>
+    )
+  } else {
+    return <Text>ERRORRRR!</Text>
   }
-  {
-    /* <TouchableOpacity style={styles.favorite_container} onPress={() => {}}>
-    {displayFavoriteImage}
-  </TouchableOpacity> */
-  }
-  {
-    /* <Text style={styles.description_text}>{film.overview}</Text> */
-  }
-  {
-    /* <Text style={styles.default_text}>
-    Sorti le {moment(new Date(film.release_date)).format("DD/MM/YYYY")}
-  </Text> */
-  }
-  {
-    /* <Text style={styles.default_text}>Note : {film.vote_average} / 10</Text>
-  <Text style={styles.default_text}>
-    Nombre de votes : {film.vote_count}
-  </Text> */
-  }
-  {
-    /* <Text style={styles.default_text}>
-    Budget : {numeral(film.budget).format("0,0[.]00 $")}
-  </Text> */
-  }
-  {
-    /* <Text style={styles.default_text}>
-    Genre(s) :{" "}
-    {film.genres
-      .map(function (genre) {
-        return genre.name
-      })
-      .join(" / ")}
-  </Text> */
-  }
-  {
-    /* <Text style={styles.default_text}>
-    Companie(s) :{" "}
-    {film.production_companies
-      .map(function (company) {
-        return company.name
-      })
-      .join(" / ")}
-  </Text> */
-  }
-  // </ScrollView>
 }
 
 const styles = StyleSheet.create({
@@ -111,14 +96,14 @@ const styles = StyleSheet.create({
   },
   title_text: {
     fontWeight: "bold",
-    fontSize: 35,
+    fontSize: 25,
     flex: 1,
     flexWrap: "wrap",
     marginLeft: 5,
     marginRight: 5,
     marginTop: 10,
     marginBottom: 10,
-    color: "#000000",
+    color: "orange",
     textAlign: "center",
   },
   favorite_container: {
@@ -134,6 +119,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 5,
     marginTop: 5,
+    color: "purple",
   },
   favorite_image: {
     flex: 1,

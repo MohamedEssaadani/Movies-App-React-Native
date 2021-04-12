@@ -15,6 +15,9 @@ const HomeStackNavigator = createStackNavigator({
   },
   FilmDetail: {
     screen: FilmDetail,
+    navigationOptions: {
+      title: "Film Detail ",
+    },
   },
 })
 
@@ -49,10 +52,7 @@ const MoviesTabNavigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarIcon: () => {
           return (
-            <Image
-              source={require("../Images/ic_search.png")}
-              style={styles.icon}
-            />
+            <Image source={require("../Images/home.png")} style={styles.icon} />
           )
         },
       },
