@@ -31,7 +31,7 @@ function FilmItem({ film, displayDetails }) {
             <Text style={styles.date_text}>{film.release_date}</Text>
           </Left>
           <Right>
-            <Rating value={film.vote_average} />
+            <Rating isReviewRating={false} value={film.vote_average} />
           </Right>
         </CardItem>
       </Card>
