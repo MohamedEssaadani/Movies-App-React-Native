@@ -5,6 +5,9 @@ import {
   FILM_DETAIL_REQUEST,
   FILM_DETAIL_SUCCESS,
   FILM_DETAIL_FAIL,
+  FILM_REVIEWS_REQUEST,
+  FILM_REVIEWS_SUCCESS,
+  FILM_REVIEWS_FAIL,
 } from "../constants/filmConstants"
 
 const filmListReducer = (state, action) => {
@@ -56,4 +59,29 @@ const filmDetailReducer = (state, action) => {
     }
   }
 }
-export { filmListReducer, filmDetailReducer }
+
+const filmReviewsReducer = (state, action) => {
+  switch (action.type) {
+    case FILM_REVIEWS_REQUEST: {
+      return {
+        loading: true,
+      }
+    }
+    case FILM_REVIEWS_SUCCESS: {
+      return {
+        loading: false,
+        reviews: action.payload,
+      }
+    }
+    case FILM_REVIEWS_FAIL: {
+      return {
+        loading: false,
+        error: action.payload,
+      }
+    }
+    default: {
+      return {}
+    }
+  }
+}
+export { filmListReducer, filmDetailReducer, filmReviewsReducer }

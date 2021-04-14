@@ -4,7 +4,6 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-  View,
   ActivityIndicator,
 } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
@@ -38,7 +37,7 @@ export default function FilmDetails({ navigation }) {
           play={true}
           videoId={film.videos.results[0].key}
         />
-        <Text>{film.title}</Text>
+        <Text style={styles.title_text}>{film.title}</Text>
 
         <TouchableOpacity style={styles.favorite_container}>
           <EnlargeShrink shouldEnlarge={false}>
@@ -49,7 +48,7 @@ export default function FilmDetails({ navigation }) {
           </EnlargeShrink>
         </TouchableOpacity>
 
-        <Reviews />
+        {/* <Reviews /> */}
 
         <Card>
           <CardItem>
@@ -57,11 +56,19 @@ export default function FilmDetails({ navigation }) {
           </CardItem>
           <CardItem>
             <Text>Note : {film.vote_average} / 10</Text>
+          </CardItem>
+          <CardItem>
             <Text>Nombre de votes : {film.vote_count}</Text>
+          </CardItem>
+          <CardItem>
             <Text>Budget : ${film.budget}</Text>
+          </CardItem>
+          <CardItem>
             <Text>
               Genre(s) : {film.genres.map((genre) => genre.name).join(" / ")}
             </Text>
+          </CardItem>
+          <CardItem>
             <Text>
               Companie(s) :{" "}
               {film.production_companies

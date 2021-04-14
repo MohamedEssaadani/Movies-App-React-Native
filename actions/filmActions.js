@@ -6,6 +6,9 @@ import {
   FILM_LIST_FAIL,
   FILM_LIST_REQUEST,
   FILM_LIST_SUCCESS,
+  FILM_REVIEWS_FAIL,
+  FILM_REVIEWS_REQUEST,
+  FILM_REVIEWS_SUCCESS,
 } from "../constants/filmConstants"
 
 const API_TOKEN = "07a6007c9bbe5527dd7b5b3505d6ac8d"
@@ -32,9 +35,28 @@ export const filmDetail = (id) => async (dispatch) => {
     `
 
     const { data } = await axios.get(url)
-    console.log(data.videos.results[0].key)
     dispatch({ type: FILM_DETAIL_SUCCESS, payload: data })
   } catch (error) {
     dispatch({ type: FILM_DETAIL_FAIL, payload: error })
+  }
+}
+
+export const filmReviews = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: FILM_REVIEWS_REQUEST })
+
+    const url = `http://localhost:5000/api/reviews`
+
+    const { data } = await axios.get(url)
+
+    dispatch({
+      type: FILM_REVIEWS_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    dispatch({
+      type: FILM_REVIEWS_FAIL,
+      payload: error,
+    })
   }
 }

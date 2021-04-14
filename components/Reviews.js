@@ -1,54 +1,34 @@
 import { Text, View } from "native-base"
-import React, { useState } from "react"
-import { FlatList } from "react-native"
+import React, { useEffect, useState } from "react"
+import { ActivityIndicator, FlatList } from "react-native"
+import { useDispatch, useSelector } from "react-redux"
+import { filmReviews } from "../actions/filmActions"
 import Review from "./Review"
 
 function Reviews() {
-  const [reviews, setReviews] = useState([
-    {
-      key: "1",
-      name: "Es-saadani Mohamed",
-      review: "Good Film",
-      rating: 3.5,
-    },
-    {
-      key: "2",
-      name: "Es-saadani Hicham",
-      review: "Bad Film",
-      rating: 1,
-    },
-    {
-      key: "3",
-      name: "Bentouil Adam",
-      review: "Great Film",
-      rating: 5,
-    },
-  ])
+  const dispatch = useDispatch()
 
-  getCollection = (querySnapshot) => {
-    const reviewArray = []
-    querySnapshot.forEach((res) => {
-      const { name, email, mobile } = res.data()
-      reviewArray.push({
-        key: res.id,
-        res,
-        name,
-        email,
-        mobile,
-      })
-    })
-    setReviews(reviewArray)
-  }
-  return (
+  const { loading, error, reviews } = useSelector((state) => state.filmReviews)
+
+  useEffect(() => {
+    dispatch(filmReviews())
+  }, [])
+
+  return loading ? (
+    <ActivityIndicator />
+  ) : filmReviews ? (
     <View>
       <Text style={{ color: "orange", marginLeft: 10, fontWeight: "bold" }}>
         Reviews:{" "}
       </Text>
       <FlatList
         data={reviews}
+        keyExtractor={(item) => item._id.toString()}
         renderItem={({ item }) => <Review item={item} />}
       />
     </View>
+  ) : (
+    <Text>{error}</Text>
   )
 }
 
