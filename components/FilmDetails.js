@@ -163,6 +163,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     color: "orange",
   },
+
   favorite_image: {
     flex: 1,
     width: null,

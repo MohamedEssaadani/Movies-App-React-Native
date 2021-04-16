@@ -3,6 +3,7 @@ import { StyleSheet, Image } from "react-native"
 import { createAppContainer } from "react-navigation"
 import { createStackNavigator } from "react-navigation-stack"
 import { createBottomTabNavigator } from "react-navigation-tabs"
+import Favorites from "../components/Favorites"
 import FilmDetail from "../components/FilmDetails"
 import Home from "../components/Home"
 
@@ -21,29 +22,17 @@ const HomeStackNavigator = createStackNavigator({
   },
 })
 
-// const FavoritesStackNavigator = createStackNavigator({
-//   Favorites: {
-//     screen: Favorites,
-//     navigationOptions: {
-//       title: "Favoris",
-//     },
-//   },
-//   FilmDetail: {
-//     screen: FilmDetail,
-//   },
-// })
-
-// const NewsStackNavigator = createStackNavigator({
-//   News: {
-//     screen: News,
-//     navigationOptions: {
-//       title: "Les Derniers Films",
-//     },
-//   },
-//   FilmDetail: {
-//     screen: FilmDetail,
-//   },
-// })
+const FavoritesStackNavigator = createStackNavigator({
+  Favorites: {
+    screen: Favorites,
+    navigationOptions: {
+      title: "Favoris",
+    },
+  },
+  FilmDetail: {
+    screen: FilmDetail,
+  },
+})
 
 const MoviesTabNavigator = createBottomTabNavigator(
   {
@@ -53,6 +42,19 @@ const MoviesTabNavigator = createBottomTabNavigator(
         tabBarIcon: () => {
           return (
             <Image source={require("../Images/home.png")} style={styles.icon} />
+          )
+        },
+      },
+    },
+    favorites: {
+      screen: FavoritesStackNavigator,
+      navigationOptions: {
+        tabBarIcon: () => {
+          return (
+            <Image
+              source={require("../Images/ic_favorite.png")}
+              style={styles.icon}
+            />
           )
         },
       },
