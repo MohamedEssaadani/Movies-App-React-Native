@@ -8,6 +8,7 @@ import {
   FILM_REVIEWS_REQUEST,
   FILM_REVIEWS_SUCCESS,
   FILM_REVIEWS_FAIL,
+  TOGGLE_FAVORITE,
 } from "../constants/filmConstants"
 
 const filmListReducer = (state, action) => {
@@ -84,4 +85,7 @@ const filmReviewsReducer = (state, action) => {
     }
   }
 }
+
+
+
 export { filmListReducer, filmDetailReducer, filmReviewsReducer }

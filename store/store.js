@@ -6,11 +6,13 @@ import {
   filmDetailReducer,
   filmReviewsReducer,
 } from "../reducers/filmReducers"
+import toggleFavorite from "../reducers/favoriteReducer"
 
 const reducer = combineReducers({
   filmList: filmListReducer,
   film: filmDetailReducer,
-  filmReviews: filmReviewsReducer,
+  reviews: filmReviewsReducer,
+  favorites: toggleFavorite,
 })
 
 const initialState = {}

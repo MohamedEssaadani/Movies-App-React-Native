@@ -9,6 +9,7 @@ import {
   FILM_REVIEWS_FAIL,
   FILM_REVIEWS_REQUEST,
   FILM_REVIEWS_SUCCESS,
+  TOGGLE_FAVORITE,
 } from "../constants/filmConstants"
 
 const API_TOKEN = "07a6007c9bbe5527dd7b5b3505d6ac8d"
@@ -41,13 +42,11 @@ export const filmDetail = (id) => async (dispatch) => {
   }
 }
 
-export const filmReviews = (id) => async (dispatch) => {
+export const filmReviews = () => async (dispatch) => {
   try {
     dispatch({ type: FILM_REVIEWS_REQUEST })
 
-    const url = `http://localhost:5000/api/reviews`
-
-    const { data } = await axios.get(url)
+    const { data } = await axios.get("http://192.168.1.8:5000/api/reviews")
 
     dispatch({
       type: FILM_REVIEWS_SUCCESS,

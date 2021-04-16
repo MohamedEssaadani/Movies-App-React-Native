@@ -8,7 +8,7 @@ import {
 } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
 import { getImageFromApi } from "../API/TMDB"
-import { filmDetail } from "../actions/filmActions"
+import { filmDetail, toggleFavoriteAction } from "../actions/filmActions"
 import moment from "moment"
 import { Card, CardItem, Text } from "native-base"
 import EnlargeShrink from "../Animations/EnLargeShrink"
@@ -19,57 +19,88 @@ import YoutubePlayer from "react-native-youtube-iframe"
 export default function FilmDetails({ navigation }) {
   const dispatch = useDispatch()
   const { loading, error, film } = useSelector((state) => state.film)
+  const { favoritesFilm } = useSelector((state) => state.favorites)
 
   useEffect(() => {
     dispatch(filmDetail(navigation.state.params.idFilm))
-  }, [navigation.state.params.idFilm])
+  }, [navigation.state.params.idFilm, favoritesFilm])
+
+  const handleFavorite = () => {
+    dispatch({ type: "TOGGLE_FAVORITE", value: film })
+  }
 
   if (film != undefined) {
     return (
       <ScrollView style={styles.scrollview_container}>
-        {/* <Image
-          style={styles.image}
-          source={{ uri: getImageFromApi(film.backdrop_path) }}
-        /> */}
+        {film.videos.results[0].key ? (
+          <YoutubePlayer
+            height={300}
+            play={true}
+            videoId={film.videos.results[0].key}
+          />
+        ) : (
+          <Image
+            style={styles.image}
+            source={{ uri: getImageFromApi(film.backdrop_path) }}
+          />
+        )}
 
-        <YoutubePlayer
-          height={300}
-          play={true}
-          videoId={film.videos.results[0].key}
-        />
         <Text style={styles.title_text}>{film.title}</Text>
 
-        <TouchableOpacity style={styles.favorite_container}>
-          <EnlargeShrink shouldEnlarge={false}>
-            <Image
-              style={styles.favorite_image}
-              source={require("../Images/ic_favorite_border.png")}
-            />
+        <TouchableOpacity
+          style={styles.favorite_container}
+          onPress={handleFavorite}
+        >
+          <EnlargeShrink
+            shouldEnlarge={false}
+            style={styles.favorite_container}
+          >
+            {favoritesFilm.findIndex((item) => item.id === film.id) !== -1 ? (
+              <Image
+                style={styles.favorite_image}
+                source={require("../Images/ic_favorite.png")}
+              />
+            ) : (
+              <Image
+                style={styles.favorite_image}
+                source={require("../Images/ic_favorite_border.png")}
+              />
+            )}
           </EnlargeShrink>
         </TouchableOpacity>
 
-        {/* <Reviews /> */}
+        <Reviews filmId={navigation.state.params.idFilm} />
 
         <Card>
           <CardItem>
             <Text>{film.overview}</Text>
           </CardItem>
           <CardItem>
-            <Text>Note : {film.vote_average} / 10</Text>
+            <Text style={{ color: "orange" }}>
+              Sorti le :
+              {moment(new Date(film.release_date)).format("DD/MM/YYYY")}
+            </Text>
           </CardItem>
           <CardItem>
-            <Text>Nombre de votes : {film.vote_count}</Text>
+            <Text style={{ color: "orange" }}>
+              Note : {film.vote_average} / 10
+            </Text>
           </CardItem>
           <CardItem>
-            <Text>Budget : ${film.budget}</Text>
+            <Text style={{ color: "orange" }}>
+              Nombre de votes : {film.vote_count}
+            </Text>
           </CardItem>
           <CardItem>
-            <Text>
+            <Text style={{ color: "orange" }}>Budget : ${film.budget}</Text>
+          </CardItem>
+          <CardItem>
+            <Text style={{ color: "orange" }}>
               Genre(s) : {film.genres.map((genre) => genre.name).join(" / ")}
             </Text>
           </CardItem>
           <CardItem>
-            <Text>
+            <Text style={{ color: "orange" }}>
               Companie(s) :{" "}
               {film.production_companies
                 .map((company) => company.name)
