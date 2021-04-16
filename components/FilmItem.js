@@ -11,9 +11,9 @@ function FilmItem({ film, displayDetails }) {
   const dispatch = useDispatch()
   const { favoritesFilm } = useSelector((state) => state.favorites)
 
-  const handleFavorite = () => {
-    dispatch({ type: "TOGGLE_FAVORITE", value: film })
-  }
+  // const handleFavorite = () => {
+  //   dispatch({ type: "TOGGLE_FAVORITE", value: film })
+  // }
 
   return (
     <ScrollView>
@@ -23,7 +23,7 @@ function FilmItem({ film, displayDetails }) {
           <Text style={styles.vote_text}>{film.vote_average}/10</Text>
           <TouchableOpacity
             style={styles.favorite_container}
-            onPress={handleFavorite}
+            // onPress={handleFavorite}
           >
             <EnlargeShrink
               shouldEnlarge={false}

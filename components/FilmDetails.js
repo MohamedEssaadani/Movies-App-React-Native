@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useRef } from "react"
 import {
   StyleSheet,
   ScrollView,
@@ -21,6 +21,8 @@ export default function FilmDetails({ navigation }) {
   const { loading, error, film } = useSelector((state) => state.film)
   const { favoritesFilm } = useSelector((state) => state.favorites)
 
+  const playerRef = useRef()
+
   useEffect(() => {
     dispatch(filmDetail(navigation.state.params.idFilm))
   }, [navigation.state.params.idFilm, favoritesFilm])
@@ -29,13 +31,23 @@ export default function FilmDetails({ navigation }) {
     dispatch({ type: "TOGGLE_FAVORITE", value: film })
   }
 
+  const checkForTime = () => {
+    playerRef.current
+      ?.getCurrentTime()
+      .then((currentTime) =>
+        console.log("Video Time View:" + { currentTime }.currentTime)
+      )
+  }
+
   if (film != undefined) {
     return (
       <ScrollView style={styles.scrollview_container}>
         {film.videos.results[0].key ? (
           <YoutubePlayer
+            ref={playerRef}
+            onChangeState={checkForTime}
             height={300}
-            play={true}
+            play={false}
             videoId={film.videos.results[0].key}
           />
         ) : (
