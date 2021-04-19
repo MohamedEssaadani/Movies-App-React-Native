@@ -3,12 +3,9 @@ import { Card, CardItem, Input, Left, Right, Text, View } from "native-base"
 import React, { useEffect, useState } from "react"
 import { StyleSheet, FlatList } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
-import { useDispatch, useSelector } from "react-redux"
-import { filmReviews } from "../actions/filmActions"
 import Review from "./Review"
 
 function Reviews({ filmId }) {
-  const dispatch = useDispatch()
   const [reviews, setReviews] = useState([])
   const [name, setName] = useState("")
   const [review, setReview] = useState("")
@@ -16,6 +13,7 @@ function Reviews({ filmId }) {
   const [showAddReviewForm, setShowAddReviewForm] = useState(false)
 
   useEffect(() => {
+    //Fetch Reviews from back end
     const fetchReviews = async () => {
       const { data } = await axios.get(
         `http://192.168.1.8:5000/api/reviews/${filmId}`
